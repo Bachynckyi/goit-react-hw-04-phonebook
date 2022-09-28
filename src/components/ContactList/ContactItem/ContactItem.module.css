@@ -1,0 +1,28 @@
+.item {
+    font-size: 26px;
+    display: flex;
+    margin-top: 10px;
+    justify-content: space-between;
+}
+
+.butonDelete {
+    height: 100%;
+    margin-left: 20px;
+    font-size: 20px;
+    border-radius: 7px;
+    cursor: pointer;
+    border: 1px solid #000;
+    outline: 1px solid #000;
+}
+
+.butonDelete:hover {
+    color: #fff;
+    background-color: blue;
+    border: 1px solid blue;
+    outline: 1px solid blue;
+}
+
+
+/* .number {
+    margin-left: 10px;
+} */
