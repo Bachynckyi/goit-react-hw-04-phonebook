@@ -1,48 +1,50 @@
 import PropTypes from 'prop-types';
 import css from './ContactForm.module.css';
-import { Component } from 'react';
+import { useState } from 'react';
 import { nanoid } from "nanoid";
 
-export class ContactForm extends Component {
-    state = {
-        name: '',
-        number: '',
-      }
-    
-    
-    handleChange = event => {
-        const {name, value } = event.currentTarget;
-        this.setState({ [name]: value })
+export const ContactForm = ({onSubmit, checkName}) => {
+
+    const [name, setName] = useState("");
+    const [number, setNumber] = useState("");
+
+    const handleChange = event => {
+        const {name, value} = event.currentTarget;
+        switch(name){
+            case 'name': setName(value);
+              break;
+            case 'number': setNumber(value);
+              break;
+            default:
+              return;
+        }
     };
     
-    handleSubmit = event => {
-        const { name, number } = this.state;
+    const handleSubmit = event => {
         event.preventDefault();
-
-        const checkName = this.props.checkName.some(
-            contactName => name.toLowerCase() === contactName.toLowerCase()
+        const checkingName = checkName.some(
+            checkName => checkName.toLowerCase() === name.toLowerCase()
           );
-          if (checkName) {
+          if (checkingName) {
             return alert(`${name} is already in contacts`);
           }      
-        
-        const newState = { id: nanoid(),name, number};
-          this.props.onSubmit(newState);
-          this.reset();
+        const newState = { id: nanoid(), name, number};
+          onSubmit(newState);
+          reset();
     };
 
-    reset = () => {
-        this.setState({ name: '', number: '' })
+    const reset = () => {
+        setName("");
+        setNumber("");
     }
 
-    render() {
     return (
-        <form onSubmit={this.handleSubmit} className={css.form}>
+        <form onSubmit={handleSubmit} className={css.form}>
             <div>
                 <label className={css.label}>Name
                     <input
-                        value={this.state.name}
-                        onChange={this.handleChange}
+                        value={name}
+                        onChange={handleChange}
                         type="text"
                         name="name"
                         pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -56,8 +58,8 @@ export class ContactForm extends Component {
             <div>
                 <label className={css.label}>Number
                     <input
-                        value={this.state.number}
-                        onChange={this.handleChange}
+                        value={number}
+                        onChange={handleChange}
                         type="tel"
                         name="number"
                         pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
@@ -70,10 +72,8 @@ export class ContactForm extends Component {
             </div>
             <button type='submit' className={css.button_submit}>Add Contact</button>
         </form>
-    )}
-}
-
-
+    )
+};
 
 ContactForm.propTypes = {
     onSubmit: PropTypes.func.isRequired,
