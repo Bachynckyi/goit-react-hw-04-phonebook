@@ -10,7 +10,7 @@ export const App = () => {
       const contact = JSON.parse(savedContact);
       return contact;
     }
-    return ''
+    return []
   });
   const [ filter, setFilter ] = useState('');
 
@@ -23,7 +23,7 @@ export const App = () => {
   };
 
   const filterList = () => {
-    const filteredList = contacts.filter(contact =>contact.name.toLowerCase().includes(filter.toLowerCase()));
+    const filteredList = contacts.filter(contact => contact.name.toLowerCase().includes(filter.toLowerCase()));
     return filteredList;
   };
 
@@ -36,6 +36,7 @@ export const App = () => {
   };
 
   const checkName = contacts.map(contact => contact.name);
+  
   return (
         <div
           style={{
